@@ -4,8 +4,6 @@ import shlex
 import json
 import subprocess
 from flask import Flask, render_template, request, jsonify
-from database_handler import DatabaseHandler
-from seed import db_handler
 from gpiozero import LED
 from time import sleep
 
@@ -15,8 +13,8 @@ app = Flask(__name__)
 # DB_NAME = app.config["DATABASE_NAME"]
 # DB_SEED_FILE = app.config["DATABASE_SEED_FILE"]
 
-DB_NAME = "essential_machine.db"
-DB_SEED_FILE = "./seed.json"
+#DB_NAME = "essential_machine.db"
+#DB_SEED_FILE = "./seed.json"
 
 TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Authorized,
@@ -139,6 +137,4 @@ def find_transaction(id):
     return gateway.transaction.find(id)
 
 if __name__ == "__main__":
-    db_handler = DatabaseHandler(DB_NAME, DB_SEED_FILE)
-    db_handler.seed_database()
     app.run()
