@@ -18,7 +18,7 @@ def hello(name=None):
 
 @app.route('/billing_summary')
 def billing_summary(name=None):
-    return render_template('billing_summary', name=name)
+    return render_template('billing_summary.html', name=name)
 
 
 if __name__ == "__main__":
