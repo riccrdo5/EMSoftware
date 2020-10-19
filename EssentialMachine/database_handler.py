@@ -51,6 +51,15 @@ class DatabaseHandler:
 		cursor.close()
 		self.conn.close()
 
+	def getProductName(self):
+		self.conn = sqlite3.connect(self.db_name)
+		cursor = self.conn.cursor()
+		cursor.execute('SELECT * FROM products')
+		result = cursor.fetchall()
+		cursor.close()
+		self.conn.close()
+		return result
+
 	def seed_database(self):
 		self.delete_existing_database()
 		self.create_new_database()
