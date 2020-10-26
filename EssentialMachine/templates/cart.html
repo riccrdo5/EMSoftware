@@ -5,6 +5,7 @@
         <meta name="description" content="This is the description">
         <link rel="stylesheet" href="{{url_for('static', filename ='css/styles.css')}}">
         <script src="{{url_for('static', filename ='js/cart.js')}}"async></script>
+        <script src="https://js.braintreegateway.com/web/dropin/1.25.0/js/dropin.min.js"></script>
     </head>
     <body>
         <section class="container content-section">
@@ -33,7 +34,16 @@
                 <strong class="cart-total-title">Total</strong>
                 <span class="cart-total-price"></span>
             </div>
-            <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+            <!-- Create form here-->
+            <form id="payment-form" method="post" action="/purchase">
+                <div class="bt-drop-in-wrapper">
+                    <div id="bt-dropin"></div>
+                </div>
+                <input type="hidden" id="nonce" name="payment_method_nonce" />
+                <input type="hidden" id="amount" name="amount">
+                <button class="btn btn-primary btn-purchase" type="submit" id="submit-button">PURCHASE</button>
+            </form>
+
         </section>
 
     </body>
