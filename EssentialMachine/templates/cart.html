@@ -5,19 +5,25 @@
     <meta name="description" content="This is the description">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename ='css/styles.css')}}">
+    <script src="{{url_for('static', filename ='js/index.js')}}" async></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="{{url_for('static', filename ='js/cart.js')}}" async></script>
     <script src="https://js.braintreegateway.com/web/dropin/1.25.0/js/dropin.min.js"></script>
+
 </head>
 <body>
     <div id = "desktopView" class="container content-section desktop-view">
         <h2 class="section-header">CART</h2>
+        {% for item in itemsList %}
+            <a> item </a>
+        {% endfor %}
         <div class="cart-row">
             <span class="cart-item cart-header cart-column">ITEM</span>
             <span class="cart-price cart-header cart-column">PRICE</span>
             <span class="cart-quantity cart-header cart-column">QUANTITY</span>
         </div>
         <div class="cart-items">
+
             {% for product in products %}
             <div class="cart-row">
                 <div class="cart-item cart-column">

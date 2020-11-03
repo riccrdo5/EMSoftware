@@ -2,7 +2,7 @@ import braintree
 import os
 from flask import Flask, url_for, render_template, request, redirect, flash
 from database_handler import DatabaseHandler
-
+from seed import db_handler
 
 app = Flask(__name__)
 # app.config.from_object('config.Config')
@@ -101,4 +101,4 @@ def find_transaction(id):
     return gateway.transaction.find(id)
 
 if __name__ == "__main__":
-    app.run(host='10.3.15.156')
+    app.run(host='10.3.15.154')

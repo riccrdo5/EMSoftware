@@ -1,10 +1,16 @@
+//var itemsList = [];
+
 if (document.readyState == 'loading') {
     document.addEventListener('DOMContentLoaded', ready)
 } else {
     ready()
 }
 
+
 function ready() {
+    console.log('in cart js');
+    var itemsList = sessionStorage.getItem('items');
+    console.log(itemsList);
     checkScreenSize();
     var removeCartItemButtons = document.getElementsByClassName('btn-danger')
     for (var i = 0; i < removeCartItemButtons.length; i++) {

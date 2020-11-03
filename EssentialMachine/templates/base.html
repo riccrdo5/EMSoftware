@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='js/main.js') }}">
+    <script src="{{url_for('static', filename ='js/index.js')}}" async></script>
+    <script src="{{url_for('static', filename ='js/cart.js')}}" async></script>
     {% block head%}
     {% endblock %}
 </head>
