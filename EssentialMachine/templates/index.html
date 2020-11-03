@@ -1,11 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Essential-Machine</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-You have reached Essential Machine.
+{%block head %}
+<title>Essential Machine</title>
+{% endblock %}
 
-</body>
-</html>
+{% block body %}
+<div class="small-container">
+    <h2 class="title">Products</h2>
+    <div class="row">
+
+        <!--First Product-->
+
+        <div class="col">
+            <img src="{{url_for('static', filename='images/Mask.png')}}" />
+            <h4>Surgical Face Mask</h4>
+            <p>$1.30</p>
+            <input type="button" value="Add to Cart" id="addcart1" onclick="handleaddcart('Mask','1.30')"/>
+        </div>
+        <div class="col">
+            <img src="{{url_for('static', filename='images/gloves.jpg')}}" />
+            <h4>Disposable Nitrile Gloves</h4>
+            <p>$1.20</p>
+            <input type="button" value="Add to Cart" id="addcart2" onclick="handleaddcart('Gloves','1.20')"/>
+        </div>
+        <div class="col">
+            <img src="{{url_for('static', filename='images/Sani.png')}}" />
+            <h4>3.4 fl oz Bottle Sanitizer</h4>
+            <p>$1.50</p>
+            <input type="button" value="Add to Cart" id="addcart3" onclick="handleaddcart('Sanitizer','1.50')"/>
+        </div>
+        <div class="col">
+            <img src="{{url_for('static', filename='images/prod_1.png')}}" />
+            <h4>Antibacterial Wet Wipes</h4>
+            <p>$2.00</p>
+            <input type="button" value="Add to Cart" id="addcart4" onclick="handleaddcart('Wipes','2.00')"/>
+        </div>
+        <a href="/billing_summary">Proceed to checkout</a>
+    </div>
+        
+</div>
+{% endblock %}
+

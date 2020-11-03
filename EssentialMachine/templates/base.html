@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/main.js') }}">
+    {% block head%}
+    {% endblock %}
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <img src="{{url_for('static', filename='images/logo.png')}}" width="125px"/>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="">Home</a></li>
+                    </ul>
+                </nav>
+                <img src="{{ url_for('static',filename='images/shopping-bag.png')}}" width="30px" height="30px">
+                <img src="{{ url_for('static', filename='images/menu.png')}}" class="menu-icon">
+            </div>
+            {% block body %}
+    
+            {% endblock %}
+            <div class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="footer-col-1">
+                            <h3>Subscribe to our newsletter</h3>
+                        </div>
+                        <div class="footer-col-2">
+                            <img src="{{url_for('static', filename='images/logo.png')}}" />
+                            <p>Our purpose is to prevent the spread of Covid-19</p>
+                        </div>
+                        <div class="footer-col-3">
+                            <h3>Our Locations</h3>
+                            <ul>
+                                <li>Flint Loop</li>
+                                <li>Lee Loop</li>
+                                <li>Governors</li>
+                                <li>Griener Hall</li>
+                            </ul>
+                        </div>
+                        <div class="footer-col-4">
+                            <h3>Follow us</h3>
+                            <ul>
+                                <li>Facebook</li>
+                                <li>Twitter</li>
+                                <li>Instagram</li>
+                                <li>Youtube</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="copy">Copyright Essential Machine</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</body>
+</html>

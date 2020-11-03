@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Essential Machine</title>
+    <meta name="description" content="This is the description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename ='css/styles.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="{{url_for('static', filename ='js/cart.js')}}" async></script>
+    <script src="https://js.braintreegateway.com/web/dropin/1.25.0/js/dropin.min.js"></script>
+</head>
+<body>
+    <div id = "desktopView" class="container content-section desktop-view">
+        <h2 class="section-header">CART</h2>
+        <div class="cart-row">
+            <span class="cart-item cart-header cart-column">ITEM</span>
+            <span class="cart-price cart-header cart-column">PRICE</span>
+            <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+        </div>
+        <div class="cart-items">
+            {% for product in products %}
+            <div class="cart-row">
+                <div class="cart-item cart-column">
+                    <img class="cart-item-image" src='{{product.img_path}}' width="100" height="100">
+                    <span class="cart-item-title">{{product.name}}</span>
+                </div>
+                <span class="cart-price cart-column">${{product.price}}</span>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" type="number" value="1">
+                    <button class="btn btn-danger" type="button">REMOVE</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id = 'total' class="cart-total">
+            <strong class="cart-total-title">Total</strong>
+            <span class="cart-total-price"></span>
+        </div>
+        <form id="payment-form" method="post" action="/purchase">
+                <div class="bt-drop-in-wrapper">
+                    <div id="bt-dropin"></div>
+                </div>
+                <input type="hidden" id="nonce" name="payment_method_nonce" />
+                <input type="hidden" id="amount" name="amount">
+                <button class="btn btn-primary btn-purchase" type="submit" id="submit-button">PURCHASE</button>
+        </form>
+    </div>
+    <div class="mobile-view">
+        <h1 class="section-header">CART</h1>
+        <div id = 'total' class="cart-total">
+            <strong class="cart-total-title">Total</strong>
+            <span class="cart-total-price"></span>
+        </div>
+        <form id="payment-form" method="post" action="/purchase">
+                <div class="bt-drop-in-wrapper">
+                    <div id="bt-dropin"></div>
+                </div>
+                <input type="hidden" id="nonce" name="payment_method_nonce" />
+                <input type="hidden" id="amount" name="amount">
+                <button class="btn btn-primary btn-purchase" type="submit" id="submit-button">PURCHASE</button>
+        </form>
+        <div class="cart-items">
+            {% for product in products %}
+            <div class="cart-row">
+                <div class="column">
+                    <img class="cart-item-image cart-column" src='{{product.img_path}}' width="100" height="100">
+                    <div class="mobile-cart-item">
+                        <p class="cart-item-title">{{product.name}}</p>
+                        <p class="cart-price">${{product.price}}</span>
+                    </div>
+                </div>
+                    <div class="cart-quantity row">
+                        <button class="btn btn-minus" type="button">
+                            <i class="material-icons" style="font-size:20px;">remove</i>
+                        </button>
+                        <input class="cart-quantity-input" type="number" value="1">
+                        <button class="btn btn-add" type="button">
+                            <i class="material-icons" style="font-size:20px;">add</i>
+                        </button>
+                        <button class="btn btn-danger" type="button">REMOVE</button>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <p id = "empty"></p>
+</body>
+</html>
