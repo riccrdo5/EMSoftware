@@ -1,5 +1,7 @@
 import braintree
 import os
+import shlex
+import subprocess
 from flask import Flask, url_for, render_template, request, redirect, flash
 from database_handler import DatabaseHandler
 
@@ -67,6 +69,11 @@ def show_checkout(transaction_id):
 
     return render_template('show.html', transaction=transaction, result=result)
 
+
+def logTransaction(request):
+    subprocess.call(shlex.split('./test.sh ' + request.form['amount']))
+
+
 @app.route('/purchase', methods=['POST'])
 def purchase(name=None):
     result = gateway.transaction.sale({
@@ -77,6 +84,7 @@ def purchase(name=None):
         }
     })
     if result.is_success or result.transaction:
+        logTransaction(request)
         return redirect(url_for('show_checkout',transaction_id=result.transaction.id))
     else:
         for x in result.errors.deep_errors: flash('Error: %s: %s' % (x.code, x.message))
@@ -103,4 +111,4 @@ def find_transaction(id):
 if __name__ == "__main__":
     db_handler = DatabaseHandler(DB_NAME, DB_SEED_FILE)
     db_handler.seed_database()
-    app.run()
+    app.run(host='10.3.15.154')
