@@ -36,14 +36,18 @@
             <input type="button" value="Add to Cart" id="addcart4" onclick="handleaddcart('Wipes','2.00', '4')"/>
         </div>
         <table id="trycart">
-            <tr class = 'cart-row'>
-                <td> Product Name</td>
-                <td> Price</td>
-                <td> Quantity</td>
-                <td> Total</td>
+            <tr>
+                <th> Product Name</th>
+                <th> Price</th>
+                <th> Quantity</th>
+                <th> Total</th>
             </tr>
         </table>
     </div>
+    <div class="bt-drop-in-wrapper">
+        <div id="bt-dropin"></div>
+    </div>
+    <input type="button" value="Purchase" id="purchase-button"/>
         
 </div>
 {% endblock %}

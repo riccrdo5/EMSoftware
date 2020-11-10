@@ -1,8 +1,9 @@
 import braintree
-import os
+import base64
 import shlex
+import json
 import subprocess
-from flask import Flask, url_for, render_template, request, redirect, flash
+from flask import Flask, render_template, request, jsonify
 from database_handler import DatabaseHandler
 from seed import db_handler
 
@@ -49,11 +50,20 @@ class Product():
 def hello(name=None):
     return render_template('index.html', name=name)
 
+@app.route('/fail')
+def show_failure(name=None):
+    print("something failed")
+    return render_template('fail.html', name=name)
 
 @app.route('/checkouts/<transaction_id>', methods=['GET'])
 def show_checkout(transaction_id):
+    prods = request.args.get('data', default='', type=str)
+    prod_string = base64.b64decode(prods)
+    prod_json = json.loads(prod_string)
+    total = 0.0
+    for prod in prod_json:
+        total += float(prod['Total'])
     transaction = find_transaction(transaction_id)
-    result = {}
     if transaction.status in TRANSACTION_SUCCESS_STATUSES:
         result = {
             'header': 'Success!',
@@ -67,28 +77,36 @@ def show_checkout(transaction_id):
             'message': 'Your test transaction has a status of ' + transaction.status + '. See the Braintree API response and try again.'
         }
 
-    return render_template('show.html', transaction=transaction, result=result)
+    return render_template('show.html', prods=prod_json, result=result, total=total)
 
 
-def logTransaction(request):
-    subprocess.call(shlex.split('./test.sh ' + request.form['amount']))
+def logTransaction(amount):
+    subprocess.call(shlex.split('./test.sh ' + str(amount)))
 
 
 @app.route('/purchase', methods=['POST'])
 def purchase(name=None):
+    json_data = request.json
+    prod_list = json_data.get('prods')
+    payment_nonce = json_data.get('nonce')
+    amount = 0.0
+    for prod in prod_list:
+        amount += float(prod.get('Total'))
     result = gateway.transaction.sale({
-        'amount': request.form['amount'],
-        'payment_method_nonce': request.form['payment_method_nonce'],
+        #'amount': request.form['amount'],
+        'amount': str(amount),
+        'payment_method_nonce': payment_nonce,
         'options': {
             "submit_for_settlement": True
         }
     })
     if result.is_success or result.transaction:
-        logTransaction(request)
-        return redirect(url_for('show_checkout',transaction_id=result.transaction.id))
+        logTransaction(amount)
+        response = jsonify(transaction_id=result.transaction.id, prods = prod_list)
+        return response
     else:
-        for x in result.errors.deep_errors: flash('Error: %s: %s' % (x.code, x.message))
-        return redirect(url_for('new_checkout'))
+        response = jsonify(msg = 'Something went wrong')
+        return response, 500
 
 @app.route('/cart')
 def cart(name=None):
@@ -111,4 +129,4 @@ def find_transaction(id):
 if __name__ == "__main__":
     db_handler = DatabaseHandler(DB_NAME, DB_SEED_FILE)
     db_handler.seed_database()
-    app.run()
+    app.run(host='10.3.15.154')

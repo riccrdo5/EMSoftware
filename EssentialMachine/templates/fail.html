@@ -9,20 +9,20 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
-	<script src="{{url_for('static', filename ='js/show.js')}}" defer></script>
+	<script src="{{url_for('static', filename ='js/fail.js')}}" defer></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" defer></script>
   <script>
     $(document).ready(function(){
-        $("#successModal").modal('show');
+        $("#failModal").modal('show');
     });
 </script>
 <style>
 body {
 	font-family: 'Varela Round', sans-serif;
 }
-.modal-confirm {		
+.modal-confirm {
 	color: #434e65;
 	width:auto;
 }
@@ -33,8 +33,8 @@ body {
 	border: none;
 }
 .modal-confirm .modal-header {
-	background: #47c9a2;
-	border-bottom: none;   
+	background: #e85e5e;
+	border-bottom: none;
 	position: relative;
 	text-align: center;
 	margin: -20px -20px 0;
@@ -48,7 +48,7 @@ body {
 }
 .modal-confirm .form-control, .modal-confirm .btn {
 	min-height: 40px;
-	border-radius: 3px; 
+	border-radius: 3px;
 }
 .modal-confirm .close {
 	position: absolute;
@@ -62,7 +62,7 @@ body {
 	opacity: 0.8;
 }
 .modal-confirm .icon-box {
-	color: #fff;		
+	color: #fff;
 	width: 95px;
 	height: 95px;
 	display: inline-block;
@@ -104,46 +104,28 @@ body {
 	font-size: 20px;
 	float: right;
 }
+
 </style>
 </head>
 <body>
 
 <!-- Modal HTML -->
-<div id="successModal" class="modal fade">
+<div id="failModal" class="modal fade">
 	<div class="modal-dialog modal-confirm">
 		<div class="modal-content">
 			<div class="modal-header justify-content-center">
 				<div class="icon-box">
-					<i class="material-icons">&#xE876;</i>
+					<i class="material-icons">&#xE5CD;</i>
 				</div>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body text-center">
-				<h4>Success!</h4>
-				<p>Your Purchase was successful</p>
-				<div id="invoice">
-					<table>
-						<tr>
-							<th style="padding:0 10px 0 10px;">Product</th>
-							<th style="padding:0 10px 0 10px;">Price</th>
-							<th style="padding:0 10px 0 10px;">Quantity</th>
-							<th style="padding:0 10px 0 10px;">Total</th>
-						</tr>
-						{% for prod in prods %}
-							<tr>
-								<td style="padding:0 10px 0 10px;">{{ prod['Product Name'] }}</td>
-								<td style="padding:0 10px 0 10px;">{{ prod['Price'] }}</td>
-								<td style="padding:0 10px 0 10px;">{{ prod['Quantity'] }}</td>
-								<td style="padding:0 10px 0 10px;">{{ prod['Total'] }}</td>
-							</tr>
-						{% endfor %}
-					</table>
-					 <p id = 'total'>Total : {{ total }}</p>
-				</div>
-				<button class="btn btn-success" data-dismiss="modal" id="success_button"><span>Return</span> <i class="material-icons">&#xE5C8;</i></button>
+				<h4>Ooops!</h4>
+				<p>Something went wrong. Please try again later.</p>
+				<button class="btn btn-success" data-dismiss="modal" id="fail_button">Return</button>
 			</div>
 		</div>
 	</div>
-</div>     
+</div>
 </body>
-</html>                            
+</html>
