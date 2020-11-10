@@ -1,14 +1,15 @@
 var items = [];
 //console.log('in js file');
 function handleaddcart (name, price, id){
-    items.push([name, price]);
-//    var element = $("#addcart"+id);
-//    element.setAttribute("style", "display: none;");
-    console.log(' bfore');
-    console.log("#addcart"+id);
-    console.log('abc');
     document.getElementById("addcart"+id).style.display = "none";
-    sessionStorage.setItem('items', items);
-    console.log('in handle add cart');
-    console.log(items);
+    var tb = document.getElementById("trycart");
+    var row = tb.insertRow();
+    var cell1 = row.insertCell();
+    var cell2 = row.insertCell();
+    var cell3 = row.insertCell();
+    var cell4 = row.insertCell();
+    cell1.innerHTML = name;
+    cell2.innerHTML = price;
+    cell3.innerHTML = 1;
+    cell4.innerHTML = price;
 }

@@ -9,6 +9,7 @@ if (document.readyState == 'loading') {
 
 function ready() {
     console.log('in cart js');
+    console.log($('.cart-items').find('span.cart-item-title').toArray())
     var itemsList = sessionStorage.getItem('items');
     console.log(itemsList);
     checkScreenSize();
