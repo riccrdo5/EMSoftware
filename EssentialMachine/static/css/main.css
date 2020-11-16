@@ -61,15 +61,28 @@ a{
 .col img{
     width: 100%;
 }
+.col p{
+    font-size: 14px;
+}
+.col2{
+    flex-basis: 25%;
+    padding: 10px;
+    min-width: 200px;
+    margin-bottom: 50px;
+}
+.col2 img{
+    width: 100%;
+}
+.col2 p{
+    font-size: 14px;
+}
 .title{
     text-align: center;
     margin: 0 auto 80px;
     position: relative;
     line-height: 60px;
 }
-.col p{
-    font-size: 14px;
-}
+
 .footer{
     background-color: black;
     color: #8a8a8a;
@@ -112,53 +125,82 @@ ul{
     height: 1px;
     margin: 20px 0;
 }
+
+
 .copy{
     text-align: center;
 }
-input{
-    display: inline-block;
+.addcartbut{
     background: #0D3323;
     color: white;
     padding: 8px 30px;
     margin: 30px 0;
     border-radius: 30px;
     transition: background 0.5s;
+    flex=100%;
 }
 
-.single_product{
-    margin-top: 80px;
+.carttitle{
+    text-align: center;
+    margin: 0 auto 80px;
+    position: relative;
+    line-height: 60px;
 }
-.single_product .col img{
-    padding: 0;
-}
-.single_product .col{
-    padding: 20px;
-}
-.single_product h4{
-    margin: 20px 0;
-    font-size: 22px;
-    font-weight: bold;
-}
-.single_product input{
+
+
+.cart-quantity-input {
+    height: 34px;
     width: 50px;
-    height: 40px;
-    padding-left: 10px;
-    font-size: 20px;
-    margin-right: 10px;
-    border: 1px solid #ff523b;
+    border-radius: 5px;
+    border: 1px solid #56CCF2;
+    background-color: #eee;
+    color: #333;
+    padding: 0;
+    text-align: center;
+    font-size: 1.2em;
+    margin-right: 25px;
 }
-input:focus{
-    outline: none;
-}
-.small-img-row{
-    display: flex;
-    justify-content: space-between;
-}
-.smgcol{
-    flex-basis: 28%;
+.btn {
+    text-align: center;
+    vertical-align: middle;
+    padding: .67em .67em;
     cursor: pointer;
+    display: none;
+}
+.btn-danger {
+    color: white;
+    background-color: #EB5757;
+    border: none;
+    border-radius: .3em;
+    font-weight: bold;
+    display: none;
+
 }
 
+.btn-danger:hover {
+    background-color: #CC4C4C;
+}
+
+button {
+    width: 45px;
+    height: 45px;
+    border: 1px solid #000;
+    color: #000;
+    border-radius: 0;
+    background: #fff;
+    flex:24%
+}
+
+input {
+    border: none;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    width: 100px;
+    font-size: 20px;
+    color: #000;
+    font-weight: 300;
+}
 
 @media only screen and (max-width: 500px){
     .row{

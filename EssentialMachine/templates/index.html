@@ -2,40 +2,56 @@
 
 {%block head %}
 <title>Essential Machine</title>
+
 {% endblock %}
 
 {% block body %}
 <div class="small-container">
     <h2 class="title">Products</h2>
     <div class="row">
-
-        <!--First Product-->
-
         <div class="col">
-            <img src="{{url_for('static', filename='images/Mask.png')}}" />
+            <img src="{{url_for('static', filename='images/mask.jpg')}}" />
             <h4>Surgical Face Mask</h4>
             <p>$1.30</p>
-            <input type="button" value="Add to Cart" id="addcart1" onclick="handleaddcart('Mask','1.30', '1')"/>
+            <button id='inc1' onclick="increment(1)">+</button>
+            <input id="quant1" value="1" min="1" max= "10" type="number">
+            <button id="dec1" onclick="decrement(1)">-</button>
+            <input  class="addcartbut"type="button" value="Add to Cart" id="addcart1" onclick="handleaddcart('Mask','1.30','1')"/>
+            <button class="btn btn-danger" id="rem1" type="button">REMOVE</button>
         </div>
         <div class="col">
             <img src="{{url_for('static', filename='images/gloves.jpg')}}" />
             <h4>Disposable Nitrile Gloves</h4>
             <p>$1.20</p>
-            <input type="button" value="Add to Cart" id="addcart2" onclick="handleaddcart('Gloves','1.20', '2')"/>
+            <button id='inc2' onclick="increment(2)">+</button>
+            <input id="quant2" value="1" min="1" max= "10" type="number">
+            <button id="dec2" onclick="decrement(2)">-</button>
+            <input class="addcartbut" type="button" value="Add to Cart" id="addcart2" onclick="handleaddcart('Gloves','1.20','2')"/>
+            <button class="btn btn-danger" id="rem2" type="button">REMOVE</button>
         </div>
-        <div class="col">
-            <img src="{{url_for('static', filename='images/Sani.png')}}" />
+        <div class="col2">
+            <img src="{{url_for('static', filename='images/sani.jpg')}}" />
             <h4>3.4 fl oz Bottle Sanitizer</h4>
             <p>$1.50</p>
-            <input type="button" value="Add to Cart" id="addcart3" onclick="handleaddcart('Sanitizer','1.50', '3')"/>
+            <button id='inc3' onclick="increment(3)">+</button>
+            <input id="quant3" value= "1" min="1" max= "10" type="number">
+            <button id="dec3" onclick="decrement(3)">-</button>
+            <input class="addcartbut" type="button" value="Add to Cart" id="addcart3" onclick="handleaddcart('Sanitizer','1.50','3')"/>
+            <button class="btn btn-danger" id="rem3" type="button">REMOVE</button>
         </div>
-        <div class="col">
-            <img src="{{url_for('static', filename='images/prod_1.png')}}" />
+        <div class="col2">
+            <img src="{{url_for('static', filename='images/wipes.jpg')}}" />
             <h4>Antibacterial Wet Wipes</h4>
             <p>$2.00</p>
-            <input type="button" value="Add to Cart" id="addcart4" onclick="handleaddcart('Wipes','2.00', '4')"/>
+            <button id='inc4' onclick="increment(4)">+</button>
+            <input id="quant4" value="1" min="1" max= "10" type="number">
+            <button id="dec4" onclick="decrement(4)">-</button>
+            <input class="addcartbut" type="button" value="Add to Cart" id="addcart4" onclick="handleaddcart('Wipes','2.00','4')"/>
+            <button class="btn btn-danger" id="rem4" type="button">REMOVE</button>
         </div>
-        <table id="trycart">
+        <div>
+            <h3 class="carttitle">CART</h3>
+        <table border="1" id="trycart">
             <tr>
                 <th> Product Name</th>
                 <th> Price</th>
@@ -43,12 +59,13 @@
                 <th> Total</th>
             </tr>
         </table>
+            <div>Grand Total: <span id="sum"></span></div>
+        </div>
+        <div class="bt-drop-in-wrapper">
+            <div id="bt-dropin"></div>
+        </div>
+        <input type="button" value="Purchase" id="purchase-button"/>
     </div>
-    <div class="bt-drop-in-wrapper">
-        <div id="bt-dropin"></div>
-    </div>
-    <input type="button" value="Purchase" id="purchase-button"/>
-        
 </div>
 {% endblock %}
 

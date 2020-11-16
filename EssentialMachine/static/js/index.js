@@ -51,17 +51,40 @@ function displayVenmoDropIn(){
     });
   });
 }
-
-function handleaddcart (name, price, id){
+totals=[]
+function handleaddcart(name,price,id){
     document.getElementById("addcart"+id).style.display = "none";
-    var tb = document.getElementById("trycart");
-    var row = tb.insertRow();
+    document.getElementById("quant"+id).style.display = "none";
+    var tbl = document.getElementById("trycart");
+    var row = tbl.insertRow();
     var cell1 = row.insertCell();
     var cell2 = row.insertCell();
     var cell3 = row.insertCell();
     var cell4 = row.insertCell();
     cell1.innerHTML = name;
     cell2.innerHTML = price;
-    cell3.innerHTML = 1;
-    cell4.innerHTML = price;
+    cell3.innerHTML = document.getElementById("quant"+id).value;
+    var x = document.getElementById("quant"+id).value;
+    var tot = price * x;
+    totals.push(tot);
+    cell4.innerHTML = tot;
+    document.getElementById("inc"+id).style.display = "none";
+    document.getElementById("dec"+id).style.display = "none";
 }
+function increment(id){
+    document.getElementById("quant"+id).stepUp();
+}
+function decrement(id){
+    document.getElementById("quant"+id).stepDown();
+}
+function calculateSum() {
+    var sum = 0;
+   for(i=0,i<totals.length(),i++){
+        sum = sum+ totals[i]
+   }
+   $("#sum").html(sum.toFixed(2));
+}
+
+$("#trycart").on("keyup", function () {
+    calculateSum();
+});
