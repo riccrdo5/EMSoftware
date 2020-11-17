@@ -141,4 +141,4 @@ def find_transaction(id):
 if __name__ == "__main__":
     db_handler = DatabaseHandler(DB_NAME, DB_SEED_FILE)
     db_handler.seed_database()
-    app.run(host='10.3.15.154')
+    app.run()
