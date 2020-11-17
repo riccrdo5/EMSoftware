@@ -131,13 +131,13 @@ ul{
     text-align: center;
 }
 .addcartbut{
+    display: inline;
     background: #0D3323;
     color: white;
     padding: 8px 30px;
     margin: 30px 0;
     border-radius: 30px;
     transition: background 0.5s;
-    flex=100%;
 }
 
 .carttitle{
@@ -168,18 +168,15 @@ ul{
     display: none;
 }
 .btn-danger {
-    color: white;
-    background-color: #EB5757;
-    border: none;
-    border-radius: .3em;
-    font-weight: bold;
-    display: none;
-
+    border: 0;
+    padding: 4px 8px;
+    background-color: #c66;
+    color: #fff;
+    font-family: font-bold;
+    font-size: 12px;
+    border-radius: 3px;
 }
 
-.btn-danger:hover {
-    background-color: #CC4C4C;
-}
 
 button {
     width: 45px;
@@ -188,7 +185,7 @@ button {
     color: #000;
     border-radius: 0;
     background: #fff;
-    flex:24%
+    display: none;
 }
 
 input {
@@ -200,6 +197,9 @@ input {
     font-size: 20px;
     color: #000;
     font-weight: 300;
+}
+.quantityinput{
+    display: none;
 }
 
 @media only screen and (max-width: 500px){
