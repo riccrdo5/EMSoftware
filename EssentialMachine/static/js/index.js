@@ -15,7 +15,7 @@ function displayVenmoDropIn(){
       allowNewBrowserTab: true
     }
   }, function (createErr, instance) {
-    pur_button.addEventListener('click', function(){
+      pur_button.addEventListener('click', function(){
       instance.requestPaymentMethod(function (err, payload) {
         if (err) {
           console.log('Error', err);
@@ -27,7 +27,6 @@ function displayVenmoDropIn(){
         var tbl_arr = $('#trycart').tableToJSON();
         var tbl_json = {nonce:payload.nonce, prods:tbl_arr};
         var json = JSON.stringify(tbl_json);
-        console.log();
         $.ajax({
             type:"POST",
             url:"/purchase",
@@ -77,9 +76,10 @@ function increment(id){
 function decrement(id){
     document.getElementById("quant"+id).stepDown();
 }
+/*
 function calculateSum() {
     var sum = 0;
-   for(i=0,i<totals.length(),i++){
+   for(i=0,i<totals.length,i++){
         sum = sum+ totals[i]
    }
    $("#sum").html(sum.toFixed(2));
@@ -88,3 +88,4 @@ function calculateSum() {
 $("#trycart").on("keyup", function () {
     calculateSum();
 });
+*/

@@ -6,6 +6,8 @@ import subprocess
 from flask import Flask, render_template, request, jsonify
 from database_handler import DatabaseHandler
 from seed import db_handler
+from gpiozero import LED
+from time import sleep
 
 app = Flask(__name__)
 # app.config.from_object('config.Config')
@@ -84,6 +86,15 @@ def logTransaction(amount):
     subprocess.call(shlex.split('./test.sh ' + str(amount)))
 
 
+def blinkLed():
+    led = LED(17)
+    for i in range(2):
+        led.on()
+        sleep(1)
+        led.off()
+        sleep(1)
+
+
 @app.route('/purchase', methods=['POST'])
 def purchase(name=None):
     json_data = request.json
@@ -102,6 +113,7 @@ def purchase(name=None):
     })
     if result.is_success or result.transaction:
         logTransaction(amount)
+        blinkLed()
         response = jsonify(transaction_id=result.transaction.id, prods = prod_list)
         return response
     else:
