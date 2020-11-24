@@ -25,6 +25,24 @@ TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Settling,
     braintree.Transaction.Status.SubmittedForSettlement
 ]
+led_mapping = {
+    'Mask' : 17,
+    'Gloves' : 18,
+    'Sanitizer' : 22
+}
+
+
+def blinkLed(prod_list):
+    # need a prod to led port
+    for prod in prod_list:
+        if prod.get('Product Name') in led_mapping:
+            led = LED(led_mapping[prod])
+            for i in range (int(prod.get('Quantity'))):
+                led.on()
+                sleep(0.1)
+                led.off()
+                sleep(0.05)
+
 
 gateway = braintree.BraintreeGateway(
     braintree.Configuration(
@@ -84,13 +102,6 @@ def logTransaction(amount):
     subprocess.call(shlex.split('./test.sh ' + str(amount)))
 
 
-def blinkLed():
-    led = LED(17)
-    for i in range(2):
-        led.on()
-        sleep(1)
-        led.off()
-        sleep(1)
 
 
 @app.route('/purchase', methods=['POST'])
@@ -112,7 +123,7 @@ def purchase(name=None):
     print(result)
     if result.is_success or result.transaction:
         logTransaction(amount)
-        blinkLed()
+        blinkLed(prod_list)
         response = jsonify(transaction_id=result.transaction.id, prods = prod_list)
         return response
     else:
@@ -138,4 +149,4 @@ def find_transaction(id):
     return gateway.transaction.find(id)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host = '10.3.15.154')
