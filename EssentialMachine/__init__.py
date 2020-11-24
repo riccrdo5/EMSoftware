@@ -40,9 +40,9 @@ def blinkLed(prod_list):
             for i in range (int(prod.get('Quantity'))):
                 #print("blinking " + prod.get('Product Name'))
                 led.on()
-                sleep(0.1)
+                sleep(0.5)
                 led.off()
-                sleep(0.05)
+                sleep(0.5)
 
 
 gateway = braintree.BraintreeGateway(
@@ -113,6 +113,7 @@ def purchase(name=None):
     amount = 0.0
     for prod in prod_list:
         amount += float(prod.get('Total'))
+        amount = round(amount, 2)
     result = gateway.transaction.sale({
         #'amount': request.form['amount'],
         'amount': str(amount),
@@ -123,7 +124,7 @@ def purchase(name=None):
     })
     print(result)
     if result.is_success or result.transaction:
-        logTransaction(amount)
+       # logTransaction(amount)
         blinkLed(prod_list)
         response = jsonify(transaction_id=result.transaction.id, prods = prod_list)
         return response
@@ -150,4 +151,4 @@ def find_transaction(id):
     return gateway.transaction.find(id)
 
 if __name__ == "__main__":
-    app.run(host = '10.3.15.154')
+    app.run()
