@@ -51,50 +51,69 @@ function displayVenmoDropIn(){
   });
 }
 function handleaddcart(name,price,id){
-document.getElementById("addcart"+id).style.display = "none";
-document.getElementById("quant"+id).style.display = "inline-block";
-document.getElementById("inc"+id).style.display = "inline-block";
-document.getElementById("dec"+id).style.display = "inline-block";
-document.getElementById("rem"+id).style.display = "inline-block";
-var tbl = document.getElementById("trycart");
-var row = tbl.insertRow();
-var cell1 = row.insertCell();
-var cell2 = row.insertCell();
-cell2.id = "cart-price"+id;
-var cell3 = row.insertCell();
-cell3.id='cart-item-qty-'+id;
-var cell4 = row.insertCell();
-cell4.id = 'cart-item-total-'+id;
-row.id='cart-item-'+id;
-cell1.innerHTML = name;
-cell2.innerHTML = price;
-cell3.innerHTML = document.getElementById("quant"+id).value;
-var x = document.getElementById("quant"+id).value;
-cell4.innerHTML = price * x;
+    document.getElementById("addcart"+id).style.display = "none";
+    document.getElementById("quant"+id).style.display = "inline-block";
+    document.getElementById("inc"+id).style.display = "inline-block";
+    document.getElementById("dec"+id).style.display = "inline-block";
+    document.getElementById("rem"+id).style.display = "inline-block";
+    var tbl = document.getElementById("trycart");
+    var row = tbl.insertRow();
+    var cell1 = row.insertCell();
+    var cell2 = row.insertCell();
+    cell2.id = "cart-price"+id;
+    var cell3 = row.insertCell();
+    cell3.id='cart-item-qty-'+id;
+    var cell4 = row.insertCell();
+    cell4.id = 'cart-item-total-'+id;
+    row.id='cart-item-'+id;
+    cell1.innerHTML = name;
+    cell2.innerHTML = price;
+    cell3.innerHTML = document.getElementById("quant"+id).value;
+    var x = document.getElementById("quant"+id).value;
+    cell4.innerHTML = price * x;
+    updatecarttotal();
 }
 
 function increment(id,price){
-document.getElementById("quant"+id).stepUp();
-var x = document.getElementById("quant"+id).value;
-document.getElementById("cart-item-qty-"+id).innerHTML= x;
-document.getElementById("cart-item-total-"+id).innerHTML = x * price
+    document.getElementById("quant"+id).stepUp();
+    var x = document.getElementById("quant"+id).value;
+    document.getElementById("cart-item-qty-"+id).innerHTML= x;
+    document.getElementById("cart-item-total-"+id).innerHTML = x * price;
+    updatecarttotal();
 }
 
 
 function decrement(id,price){
-document.getElementById("quant"+id).stepDown();
-var x = document.getElementById("quant"+id).value;
-document.getElementById("cart-item-qty-"+id).innerHTML= x;
-document.getElementById("cart-item-total-"+id).innerHTML = x * price
+    document.getElementById("quant"+id).stepDown();
+    var x = document.getElementById("quant"+id).value;
+    document.getElementById("cart-item-qty-"+id).innerHTML= x;
+    document.getElementById("cart-item-total-"+id).innerHTML = x * price
+    updatecarttotal();
 }
 
 function removebutton(id)
 {
-document.getElementById("addcart"+id).style.display = "inline-block";
-document.getElementById("quant"+id).style.display = "none";
-document.getElementById("inc"+id).style.display = " none";
-document.getElementById("dec"+id).style.display = "none";
-document.getElementById("rem"+id).style.display = "none";
-var row = document.getElementById('cart-item-'+id);
-row.parentNode.removeChild(row);
+    document.getElementById("addcart"+id).style.display = "inline-block";
+    document.getElementById("quant"+id).style.display = "none";
+    document.getElementById("inc"+id).style.display = " none";
+    document.getElementById("dec"+id).style.display = "none";
+    document.getElementById("rem"+id).style.display = "none";
+    var row = document.getElementById('cart-item-'+id);
+    row.parentNode.removeChild(row);
+}
+function updatecarttotal(){
+    var table = document.getElementById("trycart"), sumVal = 0;
+    for(var i = 1; i < table.rows.length; i++)
+    {
+        sumVal = sumVal + parseFloat(table.rows[i].cells[3].innerHTML);
+    }
+    document.getElementById("val").innerHTML = "Total =" + sumVal;
+}
+function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+function scrolltocart(){
+    document.getElementById("scrollcart").scrollIntoView();
+    window.location.hash = "scrollcart";
 }
