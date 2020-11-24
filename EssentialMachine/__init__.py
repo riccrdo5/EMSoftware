@@ -36,8 +36,9 @@ def blinkLed(prod_list):
     # need a prod to led port
     for prod in prod_list:
         if prod.get('Product Name') in led_mapping:
-            led = LED(led_mapping[prod])
+            led = LED(led_mapping[prod.get('Product Name')])
             for i in range (int(prod.get('Quantity'))):
+                #print("blinking " + prod.get('Product Name'))
                 led.on()
                 sleep(0.1)
                 led.off()
@@ -149,4 +150,4 @@ def find_transaction(id):
     return gateway.transaction.find(id)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host = '10.3.15.154')
