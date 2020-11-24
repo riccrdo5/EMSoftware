@@ -149,4 +149,4 @@ def find_transaction(id):
     return gateway.transaction.find(id)
 
 if __name__ == "__main__":
-    app.run(host = '10.3.15.154')
+    app.run()
