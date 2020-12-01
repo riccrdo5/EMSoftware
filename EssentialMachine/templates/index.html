@@ -9,46 +9,18 @@
 <div class="small-container">
     <h1 class="title">Products</h1>
     <div class="row">
-        <div class="col">
-            <img src="{{url_for('static', filename='images/mask.jpg')}}" />
-            <h4>Surgical Face Mask</h4>
-            <p>$1.30</p>
-            <button class="addcartbut" id="addcart1" onclick="handleaddcart('Mask','1.30','1')">Add to Cart</button>
-            <button class="qty" id='inc1' onclick="increment(1,1.30)">+</button>
-            <input class="quantityinput" id="quant1" value="1" min="1" max= "10" type="number">
-            <button class="qty" id="dec1" onclick="decrement(1,1.30)">-</button>
-            <button class="rembut" id="rem1" onclick="removebutton(1)" type="button">REMOVE</button>
-        </div>
-        <div class="col">
-            <img src="{{url_for('static', filename='images/gloves.jpeg')}}" />
-            <h4>Disposable Nitrile Gloves</h4>
-            <p>$1.20</p>
-            <button class="addcartbut" id="addcart2" onclick="handleaddcart('Gloves','1.20','2')">Add to Cart</button>
-            <button class="qty" id='inc2' onclick="increment(2,1.20)">+</button>
-            <input class="quantityinput" id="quant2" value="1" min="1" max= "10" type="number">
-            <button class="qty" id="dec2" onclick="decrement(2,1.20)">-</button>
-            <button class="rembut" onclick="removebutton(2)" id="rem2" type="button">REMOVE</button>
-        </div>
-        <div class="col">
-            <img src="{{url_for('static', filename='images/sani.jpg')}}" />
-            <h4>3.4 fl oz Bottle Sanitizer</h4>
-            <p>$1.50</p>
-            <button class="addcartbut" id="addcart3" onclick="handleaddcart('Sanitizer','1.50','3')">Add to Cart</button>
-            <button class="qty" id='inc3' onclick="increment(3,1.50)">+</button>
-            <input class="quantityinput" id="quant3" value= "1" min="1" max= "10" type="number">
-            <button class="qty" id="dec3" onclick="decrement(3,1.50)">-</button>
-            <button class="rembut" id="rem3" onclick="removebutton(3)" type="button">REMOVE</button>
-        </div>
-        <div class="col">
-            <img src="{{url_for('static', filename='images/wipes.jpg')}}" />
-            <h4>Antibacterial Wet Wipes</h4>
-            <p>$2.00</p>
-            <button class="addcartbut" id="addcart4" onclick="handleaddcart('Wipes','2.00','4')">Add to Cart</button>
-            <button class="qty" id='inc4' onclick="increment(4,2.00)">+</button>
-            <input class="quantityinput" id="quant4" value="1" min="1" max= "10" type="number">
-            <button class="qty" id="dec4" onclick="decrement(4,2.00)">-</button>
-            <button class="rembut" id="rem4" onclick="removebutton(4)" type="button">REMOVE</button>
-        </div>
+        {% for product in products %}
+    <div class="col">
+        <img src='{{product.img_path}}' />
+        <h4>{{product.name}}</h4>
+        <p>${{product.price}}</p>
+        <button class="addcartbut" id="addcart{{product.id}}" onclick="handleaddcart('{{product.name}}','{{product.price}}','{{product.id}}')">Add to Cart</button>
+        <button class="qty" id="dec{{product.id}}" onclick="decrement('{{product.id}}','{{product.price}}','{{product.maxqty}}')">-</button>
+        <input class="quantityinput" id="quant{{product.id}}" value="1" min="1" max= "10" type="number">
+        <button class="qty" id='inc{{product.id}}' onclick="increment('{{product.id}}','{{product.price}}','{{product.maxqty}}')">+</button>
+        <button class="rembut" id="rem{{product.id}}" onclick="removebutton('{{product.id}}')" type="button">REMOVE</button>
+    </div>
+    {% endfor %}
         <div class="spacer2" id="scrollcart">
             &nbsp;
         </div>

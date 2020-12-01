@@ -4,8 +4,10 @@ import shlex
 import json
 import subprocess
 from flask import Flask, render_template, request, jsonify
-from gpiozero import LED
+#from gpiozero import LED
 from time import sleep
+import database_handler
+import sqlite3
 
 app = Flask(__name__)
 # app.config.from_object('config.Config')
@@ -66,8 +68,27 @@ class Product():
         return 'Item %r' % self.id
 
 @app.route('/')
-def hello(name=None):
-    return render_template('index.html', name=name)
+def cart(name=None):
+    conn = sqlite3.connect('essential_machine.db')
+    cursor = conn.cursor()
+    #cursor.execute('SELECT * FROM products')
+    #prods = cursor.fetchall()
+    cursor.execute('SELECT * FROM products INNER JOIN slots ON products.product_id = slots.product_id')
+    prods = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    products = []
+    for prod in prods:
+        currProd = Product()
+        currProd.id = prod[0]
+        currProd.name = prod[1]
+        currProd.price = prod[2]
+        currProd.img_path = prod[3]
+        currProd.maxqty = prod[6]
+        products.append(currProd)
+        
+    return render_template('index.html', products = products)
+
 
 @app.route('/fail')
 def show_failure(name=None):
@@ -102,9 +123,6 @@ def show_checkout(transaction_id):
 def logTransaction(amount):
     subprocess.call(shlex.split('./test.sh ' + str(amount)))
 
-
-
-
 @app.route('/purchase', methods=['POST'])
 def purchase(name=None):
     json_data = request.json
@@ -131,21 +149,6 @@ def purchase(name=None):
     else:
         response = jsonify(msg = 'Something went wrong')
         return response, 500
-
-@app.route('/cart')
-def cart(name=None):
-    prods = db_handler.getProductName()
-    products = []
-    for prod in prods:
-        currProd = Product()
-        currProd.id = prod[0]
-        currProd.name = prod[1]
-        currProd.price = prod[2]
-        currProd.img_path = prod[3]
-        products.append(currProd)
-
-    # print(products)
-    return render_template('cart.html', products = products)
 
 def find_transaction(id):
     return gateway.transaction.find(id)

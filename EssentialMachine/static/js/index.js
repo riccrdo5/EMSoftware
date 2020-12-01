@@ -55,6 +55,7 @@ function handleaddcart(name,price,id){
     document.getElementById("quant"+id).style.display = "inline-block";
     document.getElementById("inc"+id).style.display = "inline-block";
     document.getElementById("dec"+id).style.display = "inline-block";
+    document.getElementById("dec"+id).style.visibility = "hidden";
     document.getElementById("rem"+id).style.display = "inline-block";
     var tbl = document.getElementById("trycart");
     var row = tbl.insertRow();
@@ -74,20 +75,27 @@ function handleaddcart(name,price,id){
     updatecarttotal();
 }
 
-function increment(id,price){
+function increment(id,price,z){
     document.getElementById("quant"+id).stepUp();
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
     document.getElementById("cart-item-total-"+id).innerHTML = x * price;
+    document.getElementById("dec"+id).style.visibility = "visible";
+    if(x==z){
+        document.getElementById("inc"+id).style.visibility="hidden"
+    }
     updatecarttotal();
 }
 
-
-function decrement(id,price){
+function decrement(id,price,maxqty){
+    incbutcheck(id);
     document.getElementById("quant"+id).stepDown();
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
-    document.getElementById("cart-item-total-"+id).innerHTML = x * price
+    document.getElementById("cart-item-total-"+id).innerHTML = x * price;
+    if(x==1){
+        document.getElementById("dec"+id).style.visibility="hidden"
+    }
     updatecarttotal();
 }
 
@@ -100,6 +108,7 @@ function removebutton(id)
     document.getElementById("rem"+id).style.display = "none";
     var row = document.getElementById('cart-item-'+id);
     row.parentNode.removeChild(row);
+    updatecarttotal();
 }
 function updatecarttotal(){
     var table = document.getElementById("trycart"), sumVal = 0;
@@ -109,6 +118,14 @@ function updatecarttotal(){
     }
     document.getElementById("val").innerHTML = "Total =" + sumVal;
 }
+
+function incbutcheck(id) {
+    var z = document.getElementById("inc"+id);
+    if (z.style.visibility === "hidden") {
+      z.style.visibility = "visible";
+    }
+  }
+
 function topFunction() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
