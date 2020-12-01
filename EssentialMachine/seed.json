@@ -2,30 +2,30 @@
 	{
 		"slot_id":"A11",
 		"product":{
-			"name":"mask",
+			"name":"Surgical Face Mask",
 			"init_quantity":10,
 			"unit_price":1.3,
-			"display_image_path":"static/mask.jpg"
+			"display_image_path":"static/images/mask.jpg"
 		}
 	},
 
 	{
 		"slot_id":"A12",
 		"product":{
-			"name":"glove",
+			"name":"Disposable Nitrile",
 			"init_quantity":7,
 			"unit_price":1.2,
-			"display_image_path":"static/gloves.png"
+			"display_image_path":"static/images/gloves.jpeg"
 		}
 	},
 
 	{
 		"slot_id":"A13",
 		"product":{
-			"name":"sanitizer",
+			"name":"3.4 fl oz Bottle Sanitizer",
 			"init_quantity":5,
 			"unit_price":1.5,
-			"display_image_path":"static/sanitizer.png"
+			"display_image_path":"static/images/sani.jpg"
 		}
 	}
 ]

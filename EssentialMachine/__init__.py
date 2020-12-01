@@ -4,7 +4,7 @@ import shlex
 import json
 import subprocess
 from flask import Flask, render_template, request, jsonify
-from gpiozero import LED
+#from gpiozero import LED
 from time import sleep
 
 app = Flask(__name__)
@@ -25,25 +25,6 @@ TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Settling,
     braintree.Transaction.Status.SubmittedForSettlement
 ]
-led_mapping = {
-    'Mask' : 17,
-    'Gloves' : 18,
-    'Sanitizer' : 22
-}
-
-
-def blinkLed(prod_list):
-    # need a prod to led port
-    for prod in prod_list:
-        if prod.get('Product Name') in led_mapping:
-            led = LED(led_mapping[prod.get('Product Name')])
-            for i in range (int(prod.get('Quantity'))):
-                #print("blinking " + prod.get('Product Name'))
-                led.on()
-                sleep(0.5)
-                led.off()
-                sleep(0.5)
-
 
 gateway = braintree.BraintreeGateway(
     braintree.Configuration(
@@ -103,6 +84,13 @@ def logTransaction(amount):
     subprocess.call(shlex.split('./test.sh ' + str(amount)))
 
 
+def blinkLed():
+    led = LED(17)
+    for i in range(2):
+        led.on()
+        sleep(1)
+        led.off()
+        sleep(1)
 
 
 @app.route('/purchase', methods=['POST'])
@@ -113,7 +101,6 @@ def purchase(name=None):
     amount = 0.0
     for prod in prod_list:
         amount += float(prod.get('Total'))
-        amount = round(amount, 2)
     result = gateway.transaction.sale({
         #'amount': request.form['amount'],
         'amount': str(amount),
@@ -124,8 +111,8 @@ def purchase(name=None):
     })
     print(result)
     if result.is_success or result.transaction:
-       # logTransaction(amount)
-        blinkLed(prod_list)
+        logTransaction(amount)
+        blinkLed()
         response = jsonify(transaction_id=result.transaction.id, prods = prod_list)
         return response
     else:
