@@ -10,7 +10,7 @@ import braintree
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
 
-import database_handler
+from . import database_handler
 
 load_dotenv()
 

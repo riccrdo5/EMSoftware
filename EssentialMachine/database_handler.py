@@ -59,7 +59,7 @@ def seed_tables(seed_file):
 
 def getProductName():
     global conn
-    conn = sqlite3.connect(db_name)
+    conn = sqlite3.connect(os.environ.get('DB_NAME'))
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM products')
     result = cursor.fetchall()
@@ -70,7 +70,7 @@ def getProductName():
 
 def get_product_info():
     global conn
-    conn = sqlite3.connect(db_name)
+    conn = sqlite3.connect(os.environ.get('DB_NAME'))
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM products INNER JOIN slots ON products.product_id = slots.product_id')
     prods = cursor.fetchall()
