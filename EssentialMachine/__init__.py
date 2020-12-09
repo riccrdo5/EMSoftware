@@ -1,23 +1,20 @@
-import braintree
 import base64
-import shlex
 import json
+import os
+import shlex
 import subprocess
-from flask import Flask, render_template, request, jsonify
-#from gpiozero import LED
+from gpiozero import LED
 from time import sleep
+
+import braintree
+from dotenv import load_dotenv
+from flask import Flask, render_template, request, jsonify
+
 import database_handler
-import sqlite3
+
+load_dotenv()
 
 app = Flask(__name__)
-# app.config.from_object('config.Config')
-
-# DB_NAME = app.config["DATABASE_NAME"]
-# DB_SEED_FILE = app.config["DATABASE_SEED_FILE"]
-
-#DB_NAME = "essential_machine.db"
-#DB_SEED_FILE = "./seed.json"
-
 TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Authorized,
     braintree.Transaction.Status.Authorizing,
@@ -28,9 +25,9 @@ TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.SubmittedForSettlement
 ]
 led_mapping = {
-    'Mask' : 17,
-    'Gloves' : 18,
-    'Sanitizer' : 22
+    'Surgical Face Mask': 17,
+    'Disposable Nitrile': 18,
+    '3.4 fl oz Bottle Sanitizer': 22
 }
 
 
@@ -39,8 +36,8 @@ def blinkLed(prod_list):
     for prod in prod_list:
         if prod.get('Product Name') in led_mapping:
             led = LED(led_mapping[prod.get('Product Name')])
-            for i in range (int(prod.get('Quantity'))):
-                #print("blinking " + prod.get('Product Name'))
+            for i in range(int(prod.get('Quantity'))):
+                # print("blinking " + prod.get('Product Name'))
                 led.on()
                 sleep(0.5)
                 led.off()
@@ -49,51 +46,48 @@ def blinkLed(prod_list):
 
 gateway = braintree.BraintreeGateway(
     braintree.Configuration(
-        environment='sandbox',
-        merchant_id='vtj2pcb46ytpj78b',
-        public_key='hvfxn5555z682fhp',
-        private_key='0744c74eca323071709af48de8241f5c'
+        environment=os.environ.get('BT_ENVIRONMENT'),
+        merchant_id=os.environ.get('BT_MERCHANT_ID'),
+        public_key=os.environ.get('BT_PUBLIC_KEY'),
+        private_key=os.environ.get('BT_PRIVATE_KEY')
     )
 )
 
 
-
-class Product():
+class Product:
     id = 0
     name = ""
     price = 0
     img_path = ""
-    
+
     def __repr__(self):
         return 'Item %r' % self.id
 
-@app.route('/')
-def cart(name=None):
-    conn = sqlite3.connect('essential_machine.db')
-    cursor = conn.cursor()
-    #cursor.execute('SELECT * FROM products')
-    #prods = cursor.fetchall()
-    cursor.execute('SELECT * FROM products INNER JOIN slots ON products.product_id = slots.product_id')
-    prods = cursor.fetchall()
-    cursor.close()
-    conn.close()
+
+def get_products():
+    prods = database_handler.get_product_info()
     products = []
     for prod in prods:
-        currProd = Product()
-        currProd.id = prod[0]
-        currProd.name = prod[1]
-        currProd.price = prod[2]
-        currProd.img_path = prod[3]
-        currProd.maxqty = prod[6]
-        products.append(currProd)
-        
-    return render_template('index.html', products = products)
+        curr_prod = Product()
+        curr_prod.id = prod[0]
+        curr_prod.name = prod[1]
+        curr_prod.price = prod[2]
+        curr_prod.img_path = prod[3]
+        curr_prod.maxqty = prod[6]
+        products.append(curr_prod)
+    return products
+
+
+@app.route('/')
+def cart(name=None):
+    return render_template('index.html', products=get_products())
 
 
 @app.route('/fail')
 def show_failure(name=None):
     print("something failed")
     return render_template('fail.html', name=name)
+
 
 @app.route('/checkouts/<transaction_id>', methods=['GET'])
 def show_checkout(transaction_id):
@@ -123,17 +117,42 @@ def show_checkout(transaction_id):
 def logTransaction(amount):
     subprocess.call(shlex.split('./test.sh ' + str(amount)))
 
+
+def validatePurchaseRequest(prod_list):
+    products = get_products()
+    success = True
+    # verify product name, price and quantity
+    for purchased_prod in prod_list:
+        db_prod = next((x for x in products if x.name == purchased_prod.get('Product Name')), None)
+        if db_prod is None:
+            success = False
+            break
+        else:
+            if float(purchased_prod.get('Price')) != float(db_prod.price):
+                success = False
+                break
+            else:
+                if int(purchased_prod.get('Quantity')) > int(db_prod.maxqty):
+                    success = False
+                    break
+    return success
+
+
 @app.route('/purchase', methods=['POST'])
 def purchase(name=None):
     json_data = request.json
     prod_list = json_data.get('prods')
+    success = validatePurchaseRequest(prod_list)
+    if not success:
+        response = jsonify(msg='Something went wrong')
+        return response, 500
+
     payment_nonce = json_data.get('nonce')
     amount = 0.0
     for prod in prod_list:
-        amount += float(prod.get('Total'))
+        amount += float(prod.get('Price')) * int(prod.get('Quantity'))
         amount = round(amount, 2)
     result = gateway.transaction.sale({
-        #'amount': request.form['amount'],
         'amount': str(amount),
         'payment_method_nonce': payment_nonce,
         'options': {
@@ -142,16 +161,18 @@ def purchase(name=None):
     })
     print(result)
     if result.is_success or result.transaction:
-       # logTransaction(amount)
+        # logTransaction(amount)
         blinkLed(prod_list)
-        response = jsonify(transaction_id=result.transaction.id, prods = prod_list)
+        response = jsonify(transaction_id=result.transaction.id, prods=prod_list)
         return response
     else:
-        response = jsonify(msg = 'Something went wrong')
+        response = jsonify(msg='Something went wrong')
         return response, 500
+
 
 def find_transaction(id):
     return gateway.transaction.find(id)
+
 
 if __name__ == "__main__":
     app.run()
