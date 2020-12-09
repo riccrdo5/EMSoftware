@@ -3,7 +3,7 @@ import json
 import os
 import shlex
 import subprocess
-from gpiozero import LED
+#from gpiozero import LED
 from time import sleep
 
 import braintree
@@ -24,6 +24,7 @@ TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Settling,
     braintree.Transaction.Status.SubmittedForSettlement
 ]
+
 led_mapping = {
     'Surgical Face Mask': 17,
     'Disposable Nitrile': 18,
@@ -42,7 +43,6 @@ def blinkLed(prod_list):
                 sleep(0.5)
                 led.off()
                 sleep(0.5)
-
 
 gateway = braintree.BraintreeGateway(
     braintree.Configuration(
@@ -175,4 +175,4 @@ def find_transaction(id):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='10.3.15.154')
