@@ -71,18 +71,19 @@ function handleaddcart(name,price,id){
     cell4.id = 'cart-item-total-'+id;
     row.id='cart-item-'+id;
     cell1.innerHTML = name;
-    cell2.innerHTML = price;
+    cell2.innerHTML = '$' + price;
     cell3.innerHTML = '1';
     document.getElementById("quant"+id).value = '1';
-    cell4.innerHTML = price;
+    cell4.innerHTML = '$' + price;
     updatecarttotal();
 }
 
 function increment(id,price,z){
+    price.replace('$','')
     document.getElementById("quant"+id).stepUp();
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
-    document.getElementById("cart-item-total-"+id).innerHTML = (x * price).toFixed(2);
+    document.getElementById("cart-item-total-"+id).innerHTML = '$' + (x * price).toFixed(2);
     document.getElementById("dec"+id).style.visibility = "visible";
     if(x==z){
         document.getElementById("inc"+id).style.visibility="hidden"
@@ -92,10 +93,11 @@ function increment(id,price,z){
 
 function decrement(id,price,maxqty){
     incbutcheck(id);
+    price.replace('$','')
     document.getElementById("quant"+id).stepDown();
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
-    document.getElementById("cart-item-total-"+id).innerHTML = (x * price).toFixed(2);
+    document.getElementById("cart-item-total-"+id).innerHTML = '$' + (x * price).toFixed(2);
     if(x==1){
         document.getElementById("dec"+id).style.visibility="hidden"
     }
@@ -119,9 +121,10 @@ function updatecarttotal(){
     var table = document.getElementById("trycart"), sumVal = 0.0;
     for(var i = 1; i < table.rows.length; i++)
     {
-        sumVal = sumVal + parseFloat(table.rows[i].cells[3].innerHTML);
+        var price = table.rows[i].cells[3].innerHTML.replace('$','')
+        sumVal = sumVal + parseFloat(price);
     }
-    document.getElementById("val").innerHTML = "Total =" + sumVal.toFixed(2);
+    document.getElementById("val").innerHTML = "Total: $" + sumVal.toFixed(2);
 }
 
 function incbutcheck(id) {

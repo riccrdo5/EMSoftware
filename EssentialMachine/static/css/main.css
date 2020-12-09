@@ -8,7 +8,7 @@
 .navbar{
     display: flex;
     align-items: center;
-    padding: 20px;
+    padding: 5px;
     background:#909fbb;
     width: 100%;
     position: fixed;
@@ -27,6 +27,7 @@ nav ul{
 nav ul li{
     display: inline-block;
     margin-right: 20px;
+    font-size: 24px;
 }
 a{
     text-decoration: none;
@@ -127,8 +128,8 @@ h4{
 input{
     border: 0;
     width: 25%;
-    background-color: #44516f       ;
-    color:#272f3f;
+    background-color: #576a8e;
+    color:#131720;
     display: none;
     font-size: 30px;
     text-align: center;
@@ -171,9 +172,11 @@ td{
 .spacer2{
     height: 40px;
 }
+
 span{
     font-size: 18px;
     font-weight: bold;
+    text-align: center;
 }
 
 .purchasebut{
