@@ -27,7 +27,7 @@ TRANSACTION_SUCCESS_STATUSES = [
 
 led_mapping = {
     'Surgical Face Mask': 17,
-    'Disposable Nitrile': 18,
+    'Disposable Nitrile Gloves': 18,
     '3.4 fl oz Bottle Sanitizer': 22
 }
 
@@ -128,7 +128,7 @@ def validatePurchaseRequest(prod_list):
             success = False
             break
         else:
-            if float(purchased_prod.get('Price')) != float(db_prod.price):
+            if float(purchased_prod.get('Price')[1:]) != float(db_prod.price):
                 success = False
                 break
             else:
@@ -150,7 +150,7 @@ def purchase(name=None):
     payment_nonce = json_data.get('nonce')
     amount = 0.0
     for prod in prod_list:
-        amount += float(prod.get('Price')) * int(prod.get('Quantity'))
+        amount += float(prod.get('Price')[1:]) * int(prod.get('Quantity'))
         amount = round(amount, 2)
     result = gateway.transaction.sale({
         'amount': str(amount),

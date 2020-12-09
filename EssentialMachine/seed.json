@@ -12,7 +12,7 @@
 	{
 		"slot_id":"A12",
 		"product":{
-			"name":"Disposable Nitrile",
+			"name":"Disposable Nitrile Gloves",
 			"init_quantity":7,
 			"unit_price":1.20,
 			"display_image_path":"static/images/gloves.jpeg"
