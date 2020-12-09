@@ -145,5 +145,6 @@ function displaycart(){
     }
     else{
         document.getElementById("cartsection").style.display="block";
+        $('[data-braintree-id="choose-a-way-to-pay"]').hide();
     }
 }
