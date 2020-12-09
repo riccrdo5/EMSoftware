@@ -42,7 +42,7 @@ gateway = braintree.BraintreeGateway(
 class Product():
     id = 0
     name = ""
-    price = 0
+    price = ""
     img_path = ""
     
     def __repr__(self):
@@ -63,7 +63,8 @@ def cart(name=None):
         currProd = Product()
         currProd.id = prod[0]
         currProd.name = prod[1]
-        currProd.price = prod[2]
+        currProd.price = "{:.2f}".format(prod[2])
+        #print('price = '+currProd.price)
         currProd.img_path = prod[3]
         currProd.maxqty = prod[6]
         products.append(currProd)
@@ -123,7 +124,7 @@ def purchase(name=None):
     print(result)
     if result.is_success or result.transaction:
         logTransaction(amount)
-        blinkLed()
+        #blinkLed()
         response = jsonify(transaction_id=result.transaction.id, prods = prod_list)
         return response
     else:

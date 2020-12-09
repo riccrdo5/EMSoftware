@@ -50,7 +50,10 @@ function displayVenmoDropIn(){
     });
   });
 }
+var cartshow = 0;
 function handleaddcart(name,price,id){
+    cartshow = cartshow + 1;
+    displaycart();
     document.getElementById("addcart"+id).style.display = "none";
     document.getElementById("quant"+id).style.display = "inline-block";
     document.getElementById("inc"+id).style.display = "inline-block";
@@ -69,9 +72,9 @@ function handleaddcart(name,price,id){
     row.id='cart-item-'+id;
     cell1.innerHTML = name;
     cell2.innerHTML = price;
-    cell3.innerHTML = document.getElementById("quant"+id).value;
-    var x = document.getElementById("quant"+id).value;
-    cell4.innerHTML = price * x;
+    cell3.innerHTML = '1';
+    document.getElementById("quant"+id).value = '1';
+    cell4.innerHTML = price;
     updatecarttotal();
 }
 
@@ -79,7 +82,7 @@ function increment(id,price,z){
     document.getElementById("quant"+id).stepUp();
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
-    document.getElementById("cart-item-total-"+id).innerHTML = x * price;
+    document.getElementById("cart-item-total-"+id).innerHTML = (x * price).toFixed(2);
     document.getElementById("dec"+id).style.visibility = "visible";
     if(x==z){
         document.getElementById("inc"+id).style.visibility="hidden"
@@ -92,7 +95,7 @@ function decrement(id,price,maxqty){
     document.getElementById("quant"+id).stepDown();
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
-    document.getElementById("cart-item-total-"+id).innerHTML = x * price;
+    document.getElementById("cart-item-total-"+id).innerHTML = (x * price).toFixed(2);
     if(x==1){
         document.getElementById("dec"+id).style.visibility="hidden"
     }
@@ -109,14 +112,16 @@ function removebutton(id)
     var row = document.getElementById('cart-item-'+id);
     row.parentNode.removeChild(row);
     updatecarttotal();
+    cartshow = cartshow - 1;
+    displaycart();
 }
 function updatecarttotal(){
-    var table = document.getElementById("trycart"), sumVal = 0;
+    var table = document.getElementById("trycart"), sumVal = 0.0;
     for(var i = 1; i < table.rows.length; i++)
     {
         sumVal = sumVal + parseFloat(table.rows[i].cells[3].innerHTML);
     }
-    document.getElementById("val").innerHTML = "Total =" + sumVal;
+    document.getElementById("val").innerHTML = "Total =" + sumVal.toFixed(2);
 }
 
 function incbutcheck(id) {
@@ -133,4 +138,12 @@ function topFunction() {
 function scrolltocart(){
     document.getElementById("scrollcart").scrollIntoView();
     window.location.hash = "scrollcart";
+}
+function displaycart(){
+    if(cartshow==0){
+        document.getElementById("cartsection").style.display="none";
+    }
+    else{
+        document.getElementById("cartsection").style.display="block";
+    }
 }
