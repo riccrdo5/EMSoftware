@@ -14,9 +14,8 @@
     {% endblock %}
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <div class="navbar">
+    
+            <div class="navbar" id="header">
                 <div class="logo">
                     <img src="{{url_for('static', filename='images/logo.png')}}" width="125px"/>
                 </div>
@@ -27,14 +26,13 @@
                 </nav>
                 <img src="{{ url_for('static',filename='images/shopping-bag.png')}}" onclick="scrolltocart()" width="30px" height="30px">
             </div>
-            <div class="spacer">
-                &nbsp;
-            </div>
+            <div class="container">
             {% block body %}
 
             {% endblock %}
+    </div>
             <div class="footer">
-                <div class="container">
+                <div class="container1">
                     <div class="row">
                         <div class="footer-col-1">
                             <h3>Subscribe to our newsletter</h3>
@@ -66,9 +64,5 @@
                     <p class="copy">Copyright Essential Machine</p>
                 </div>
             </div>
-        </div>
-    </div>
-
-
 </body>
 </html>

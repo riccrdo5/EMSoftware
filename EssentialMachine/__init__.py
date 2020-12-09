@@ -3,7 +3,7 @@ import json
 import os
 import shlex
 import subprocess
-#from gpiozero import LED
+from gpiozero import LED
 from time import sleep
 
 import braintree
@@ -35,8 +35,8 @@ led_mapping = {
 def blinkLed(prod_list):
     # need a prod to led port
     for prod in prod_list:
-        if prod.get('Product Name') in led_mapping:
-            led = LED(led_mapping[prod.get('Product Name')])
+        if prod.get('Product(s)') in led_mapping:
+            led = LED(led_mapping[prod.get('Product(s)')])
             for i in range(int(prod.get('Quantity'))):
                 # print("blinking " + prod.get('Product Name'))
                 led.on()
@@ -57,7 +57,7 @@ gateway = braintree.BraintreeGateway(
 class Product:
     id = 0
     name = ""
-    price = 0
+    price = ""
     img_path = ""
 
     def __repr__(self):
@@ -71,7 +71,7 @@ def get_products():
         curr_prod = Product()
         curr_prod.id = prod[0]
         curr_prod.name = prod[1]
-        curr_prod.price = prod[2]
+        curr_prod.price = "{:.2f}".format(prod[2])
         curr_prod.img_path = prod[3]
         curr_prod.maxqty = prod[6]
         products.append(curr_prod)
@@ -123,7 +123,7 @@ def validatePurchaseRequest(prod_list):
     success = True
     # verify product name, price and quantity
     for purchased_prod in prod_list:
-        db_prod = next((x for x in products if x.name == purchased_prod.get('Product Name')), None)
+        db_prod = next((x for x in products if x.name == purchased_prod.get('Product(s)')), None)
         if db_prod is None:
             success = False
             break
@@ -175,4 +175,4 @@ def find_transaction(id):
 
 
 if __name__ == "__main__":
-    app.run(host='10.3.15.154')
+    app.run()
