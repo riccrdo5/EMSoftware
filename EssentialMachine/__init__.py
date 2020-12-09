@@ -96,7 +96,7 @@ def show_checkout(transaction_id):
     prod_json = json.loads(prod_string)
     total = 0.0
     for prod in prod_json:
-        total += float(prod['Total'])
+        total += float(prod['Total'][1:])
     transaction = find_transaction(transaction_id)
     if transaction.status in TRANSACTION_SUCCESS_STATUSES:
         result = {
