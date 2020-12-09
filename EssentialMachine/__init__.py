@@ -12,7 +12,7 @@ from flask import Flask, render_template, request, jsonify
 
 from . import database_handler
 
-load_dotenv()
+load_dotenv(dotenv_path='//var//www//Essential-Machine//EssentialMachine//.env')
 
 app = Flask(__name__)
 TRANSACTION_SUCCESS_STATUSES = [
