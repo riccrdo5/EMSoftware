@@ -5,8 +5,10 @@ import uuid
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path='//var//www//Essential-Machine//EssentialMachine//.env')
+
 db_name = os.environ.get('DB_NAME')
 conn = None
+
 
 def delete_existing_database():
     if os.path.exists(db_name):
@@ -82,3 +84,8 @@ def seed_database(seed_file):
     create_new_database()
     create_tables()
     seed_tables(seed_file)
+
+
+def update_prod_quantity(connection, prod_id, new_quantity):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE slots set quantity = ? where product_id = ?', (new_quantity, prod_id))

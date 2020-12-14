@@ -12,7 +12,7 @@ function displayVenmoDropIn(){
     authorization: client_token,
     container: '#bt-dropin',
     venmo: {
-      allowNewBrowserTab: true
+      allowNewBrowserTab: false
     }
   }, function (createErr, instance) {
       pur_button.addEventListener('click', function(){

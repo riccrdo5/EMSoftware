@@ -3,6 +3,7 @@ import json
 import os
 import shlex
 import subprocess
+import sqlite3
 from gpiozero import LED
 from time import sleep
 
@@ -118,8 +119,7 @@ def logTransaction(amount):
     subprocess.call(shlex.split('./test.sh ' + str(amount)))
 
 
-def validatePurchaseRequest(prod_list):
-    products = get_products()
+def validatePurchaseRequest(prod_list, products):
     success = True
     # verify product name, price and quantity
     for purchased_prod in prod_list:
@@ -138,11 +138,22 @@ def validatePurchaseRequest(prod_list):
     return success
 
 
+def update_prod_quantities(prod_list, db_products):
+    conn = sqlite3.connect(os.environ.get('DB_NAME'))
+    for prod in prod_list:
+        db_prod = next((x for x in db_products if x.name == prod.get('Product(s)')), None)
+        new_quantity = int(db_prod.maxqty) - int(prod.get('Quantity'))
+        database_handler.update_prod_quantity(conn, db_prod.id, new_quantity)
+    conn.commit()
+    conn.close()
+
+
 @app.route('/purchase', methods=['POST'])
-def purchase(name=None):
+def purchase():
     json_data = request.json
     prod_list = json_data.get('prods')
-    success = validatePurchaseRequest(prod_list)
+    db_products = get_products()
+    success = validatePurchaseRequest(prod_list, db_products)
     if not success:
         response = jsonify(msg='Something went wrong')
         return response, 500
@@ -159,10 +170,10 @@ def purchase(name=None):
             "submit_for_settlement": True
         }
     })
-    print(result)
     if result.is_success or result.transaction:
         # logTransaction(amount)
         blinkLed(prod_list)
+        update_prod_quantities(prod_list, db_products)
         response = jsonify(transaction_id=result.transaction.id, prods=prod_list)
         return response
     else:
