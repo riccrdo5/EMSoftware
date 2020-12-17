@@ -159,7 +159,6 @@ def purchase(name=None):
             "submit_for_settlement": True
         }
     })
-    print(result)
     if result.is_success or result.transaction:
         # logTransaction(amount)
         blinkLed(prod_list)

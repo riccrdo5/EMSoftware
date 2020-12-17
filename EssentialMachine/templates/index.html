@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} <!--To get the header, footer and the linked stylesheets and js files-->
 
 {%block head %}
 <title>Essential Machine</title>
@@ -7,19 +7,24 @@
 
 {% block body %}
 <div class="small-container">
-    <div class="spacer" id="scrollcart">
+    <!-- The spacer class to provide some space below the header-->
+    <div class="spacer">
         &nbsp;
     </div>
     <div class="row">
-        {% for product in products %}
+        {% for product in products %} <!-- To get all the products -->
     <div class="col">
+        <!-- Product Details start -->
         <img src='{{product.img_path}}' />
         <h4>{{product.name}}</h4>
         <p>${{product.price}}</p>
+        <!-- Product Details end -->
+
+        <!-- All buttons -->
             <button class="addcartbut" id="addcart{{product.id}}" onclick="handleaddcart('{{product.name}}','{{product.price}}','{{product.id}}')">ADD TO CART</button>
             <br>
-            <button class="qty" id="dec{{product.id}}" onclick="decrement('{{product.id}}','{{product.price}}','{{product.maxqty}}')">-</button>
-            <input class="quantityinput" id="quant{{product.id}}" value="1" min="1" max= "10" type="number">
+            <button class="qty" id="dec{{product.id}}" onclick="decrement('{{product.id}}','{{product.price}}')">-</button>
+            <input class="quantityinput" id="quant{{product.id}}" value="1" type="number">
             <button class="qty" id='inc{{product.id}}' onclick="increment('{{product.id}}','{{product.price}}','{{product.maxqty}}')">+</button>
             <button class="rembut" id="rem{{product.id}}" onclick="removebutton('{{product.id}}')" type="button">REMOVE</button>
     </div>
@@ -30,6 +35,8 @@
         <div id="cartsection" >
             <div class="thecart">
                 <h2 class="carttitle">CART</h2>
+
+                <!--The Cart Table-->
             <table id="trycart">
                 <tr class="tblhead">
                 <td>Product(s)</td>
@@ -39,11 +46,13 @@
             </table>
             <br>
             <hr>
-            <span id="val"></span>
+            <span id="val"></span> <!-- This will display the grand total-->
             </div>
             <div class="spacer2">
                 &nbsp;
             </div>
+
+            <!--This is where the payment section is displayed-->
             <div class="bt-drop-in-wrapper">
                 <div id="bt-dropin"></div>
             </div>
