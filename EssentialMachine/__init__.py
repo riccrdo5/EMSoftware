@@ -82,6 +82,7 @@ def get_products():
 
 @app.route('/')
 def cart(name=None):
+    app.logger.INFO('Home page accessed')
     return render_template('index.html', products=get_products())
 
 
