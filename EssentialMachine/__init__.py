@@ -17,6 +17,7 @@ from . import database_handler
 load_dotenv(dotenv_path='//var//www//Essential-Machine//EssentialMachine//.env')
 
 app = Flask(__name__)
+app.logger.setLevel(logging.INFO)
 TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Authorized,
     braintree.Transaction.Status.Authorizing,
@@ -82,7 +83,6 @@ def get_products():
 
 @app.route('/')
 def cart(name=None):
-    app.logger.INFO('Home page accessed')
     return render_template('index.html', products=get_products())
 
 
@@ -189,5 +189,4 @@ def find_transaction(id):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
     app.run()
