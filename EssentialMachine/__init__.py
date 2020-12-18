@@ -151,7 +151,7 @@ def update_prod_quantities(prod_list, db_products):
 
 @app.route('/purchase', methods=['POST'])
 def purchase():
-    app.logger.error('purchase request : %s', request.json)
+    app.logger.debug('purchase request : %s', request.json)
     json_data = request.json
     prod_list = json_data.get('prods')
     db_products = get_products()
