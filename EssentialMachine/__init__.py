@@ -4,6 +4,7 @@ import os
 import shlex
 import subprocess
 import sqlite3
+import logging
 from gpiozero import LED
 from time import sleep
 
@@ -187,4 +188,5 @@ def find_transaction(id):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     app.run()
