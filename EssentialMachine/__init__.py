@@ -178,6 +178,7 @@ def purchase():
             "submit_for_settlement": True
         }
     })
+
     app.logger.info('Transaction submitted to Venmo. result : %s', result)
     if result.is_success or result.transaction:
         blinkLed(prod_list)

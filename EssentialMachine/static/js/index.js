@@ -50,16 +50,24 @@ function displayVenmoDropIn(){
     });
   });
 }
-var cartshow = 0;
+
+
+
+var cartshow = 0; //Variable to check if the cart contains items
+
 function handleaddcart(name,price,id){
     cartshow = cartshow + 1;
     displaycart();
-    document.getElementById("addcart"+id).style.display = "none";
+    document.getElementById("addcart"+id).style.display = "none"; //Hide the add to cart button
+    //Displaying the quantity and remove buttons
     document.getElementById("quant"+id).style.display = "inline-block";
     document.getElementById("inc"+id).style.display = "inline-block";
     document.getElementById("dec"+id).style.display = "inline-block";
     document.getElementById("dec"+id).style.visibility = "hidden";
     document.getElementById("rem"+id).style.display = "inline-block";
+
+    //Adds a row to cell and displays it
+
     var tbl = document.getElementById("trycart");
     var row = tbl.insertRow();
     var cell1 = row.insertCell();
@@ -80,24 +88,30 @@ function handleaddcart(name,price,id){
 
 function increment(id,price,z){
     price.replace('$','')
-    document.getElementById("quant"+id).stepUp();
+    document.getElementById("quant"+id).stepUp(); //Increases the quantity
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
-    document.getElementById("cart-item-total-"+id).innerHTML = '$' + (x * price).toFixed(2);
+    document.getElementById("cart-item-total-"+id).innerHTML = '$' + (x * price).toFixed(2); 
+
+    //Decrement button is only visible if the increment button is clicked atleast once
     document.getElementById("dec"+id).style.visibility = "visible";
+
+    //Increment button disappears when it reaches the max quantity obtained from the database
     if(x==z){
         document.getElementById("inc"+id).style.visibility="hidden"
     }
     updatecarttotal();
 }
 
-function decrement(id,price,maxqty){
+function decrement(id,price){
     incbutcheck(id);
     price.replace('$','')
-    document.getElementById("quant"+id).stepDown();
+    document.getElementById("quant"+id).stepDown(); //Decreases the quantity
     var x = document.getElementById("quant"+id).value;
     document.getElementById("cart-item-qty-"+id).innerHTML= x;
     document.getElementById("cart-item-total-"+id).innerHTML = '$' + (x * price).toFixed(2);
+
+    //Decrement button disappears if the quantity come down to 1
     if(x==1){
         document.getElementById("dec"+id).style.visibility="hidden"
     }
@@ -106,11 +120,15 @@ function decrement(id,price,maxqty){
 
 function removebutton(id)
 {
-    document.getElementById("addcart"+id).style.display = "inline-block";
+    document.getElementById("addcart"+id).style.display = "inline-block"; //Shows the add to cart button
+
+    //Hides quantity and remove buttons
     document.getElementById("quant"+id).style.display = "none";
     document.getElementById("inc"+id).style.display = " none";
     document.getElementById("dec"+id).style.display = "none";
     document.getElementById("rem"+id).style.display = "none";
+
+    //Removes the item from the cart table
     var row = document.getElementById('cart-item-'+id);
     row.parentNode.removeChild(row);
     updatecarttotal();
@@ -134,15 +152,13 @@ function incbutcheck(id) {
     }
   }
 
-function topFunction() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
 function scrolltocart(){
     document.getElementById("scrollcart").scrollIntoView();
     window.location.hash = "scrollcart";
 }
 function displaycart(){
+
+    //Cart and payment section will only be displayed only if cart contains atleast one item
     if(cartshow==0){
         document.getElementById("cartsection").style.display="none";
     }

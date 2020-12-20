@@ -1,41 +1,60 @@
+<!-- This the base html for the page. This contains the header and the footer of the page-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
+
+    <!-- Linking the stylesheets(css) and JS files to the page -->
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
     <script src="https://js.braintreegateway.com/web/dropin/1.25.0/js/dropin.min.js" defer></script>
     <script src="{{url_for('static', filename = 'js/jquery.tabletojson.min.js')}}" defer></script>
     <script src="{{url_for('static', filename ='js/index.js')}}" defer></script>
-   <!-- <script src="{{url_for('static', filename ='js/cart.js')}}" async></script> -->
-
+   
     {% block head%}
+    
+    <!-- The head block space -->
+    
     {% endblock %}
+
 </head>
 <body>
+    <!-- The header of the page -->
     
             <div class="navbar" id="header">
                 <div class="logo">
+
+                    <!-- The logo on the header of the page -->
+
                     <img src="{{url_for('static', filename='images/logo.png')}}" width="125px"/>
                 </div>
                 <nav>
                     <ul>
                         <li><a href="#header" >Home</a></li>
-                        <li><a href="index.html#scrollcart" >Cart</a></li>
+                        <li><a href="" onclick="scrolltocart()">Cart</a></li>
                     </ul>
                 </nav>
             </div>
             <div class="container">
             {% block body %}
 
+<!-- The body block space-->
+
             {% endblock %}
     </div>
+
+    <!-- The footer of the page -->
             <div class="footer">
                 <div class="container1">
                     <div class="row">
                         <div class="footer-col-1">
+
+                            <!-- Add hyperlink to this one too-->
                             <h3>Subscribe to our newsletter</h3>
+
                         </div>
                         <div class="footer-col-2">
                             <img src="{{url_for('static', filename='images/logo.png')}}" />
@@ -53,6 +72,7 @@
                         <div class="footer-col-4">
                             <h3>Follow us</h3>
                             <ul>
+                                <!-- These asre social media handles. Add hyperlinks accordingly -->
                                 <li>Facebook</li>
                                 <li>Twitter</li>
                                 <li>Instagram</li>
