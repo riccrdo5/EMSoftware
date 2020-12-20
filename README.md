@@ -25,6 +25,7 @@ sudo apt-get -y install python3-pip
 sudo virtualenv venv
 source venv/bin/activate 
 sudo pip3 install Flask 
+sudo pip3 install braintree
 deactivate
 # Install git
 sudo apt install git
