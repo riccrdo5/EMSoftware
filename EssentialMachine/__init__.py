@@ -29,7 +29,9 @@ TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.SubmittedForSettlement
 ]
 
-#Venmo gateway setup. Takes values from .env file
+"""Venmo gateway setup. Takes values from .env file
+    For more information about venmo setup, visit: https://developers.braintreepayments.com/guides/venmo/overview
+"""
 gateway = braintree.BraintreeGateway(
     braintree.Configuration(
         environment=os.environ.get('BT_ENVIRONMENT'),
