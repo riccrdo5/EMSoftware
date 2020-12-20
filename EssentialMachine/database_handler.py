@@ -4,6 +4,8 @@ import sqlite3
 import uuid
 from dotenv import load_dotenv
 
+#This module handles common database operations done by the app
+
 load_dotenv(dotenv_path='//var//www//Essential-Machine//EssentialMachine//.env')
 
 db_name = os.environ.get('DB_NAME')
