@@ -96,7 +96,11 @@ sudo tail /var/log/apache2/error.log
 
 ### Seeding the Vending Machine
 
-Seeding of new values is done using the **seed.json** file. Change values in seed.json on refilling the vending machine. Restarting apache will recreate new database from the see file automatically.  
+Seeding of new values is done using the **seed.json** file. Change values in seed.json on refilling the vending machine. Restarting apache will recreate new database from the see file automatically. 
+
+```shell
+chmod 777 essential_machine.db  #To give write permissions to the application.
+```
 
 ### Links
 
