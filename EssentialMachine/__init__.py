@@ -5,8 +5,7 @@ import shlex
 import subprocess
 import sqlite3
 import logging
-from gpiozero import LED
-from time import sleep
+from . import led
 
 import braintree
 from dotenv import load_dotenv
@@ -29,25 +28,6 @@ TRANSACTION_SUCCESS_STATUSES = [
     braintree.Transaction.Status.Settling,
     braintree.Transaction.Status.SubmittedForSettlement
 ]
-
-led_mapping = {
-    'Surgical Face Mask': 17,
-    'Disposable Nitrile Gloves': 18,
-    '3.4 fl oz Bottle Sanitizer': 22
-}
-
-
-def blinkLed(prod_list):
-    # need a prod to led port
-    for prod in prod_list:
-        if prod.get('Product(s)') in led_mapping:
-            led = LED(led_mapping[prod.get('Product(s)')])
-            for i in range(int(prod.get('Quantity'))):
-                # print("blinking " + prod.get('Product Name'))
-                led.on()
-                sleep(0.5)
-                led.off()
-                sleep(0.5)
 
 #Venmo gateway setup. Takes values from .env file
 gateway = braintree.BraintreeGateway(
@@ -181,7 +161,7 @@ def purchase():
 
     app.logger.info('Transaction submitted to Venmo. result : %s', result)
     if result.is_success or result.transaction:
-        blinkLed(prod_list)
+        led.blinkLed(prod_list)
         update_prod_quantities(prod_list, db_products)
         response = jsonify(transaction_id=result.transaction.id, prods=prod_list)
         return response
