@@ -85,9 +85,6 @@ sudo a2ensite Essential-Machine
 sudo service apache2 restart
 ```
 
-```shell
-sudo chmod 777 essential_machine.db  #To give write permissions to the application.
-```
 5. You can access the site at <IP_ADDRESS>:<PORT_NUM>/ (set in the above conf file)
 6. You can use the below command to debug any sever errors. 
 
@@ -99,12 +96,19 @@ sudo tail /var/log/apache2/error.log
 
 ### Seeding the Vending Machine
 
-Seeding of new values is done using the **seed.json** file. Change values in seed.json on refilling the vending machine.
-To seed use the following cmd:
+Seeding of new values is done using the **seed.json** file. Change values in seed.json on refilling the vending machine. Restarting apache will recreate new database from the see file automatically. 
 
 ```shell
-./seed.sh 
+sudo chmod 777 essential_machine.db  #To give write permissions to the application.
 ```
+
+
+### Venmo Configuration
+Venmo configuration variables(merchent id, public key, private key) are stored in a file called '.env' inside the project directory. Please see how to get these here https://articles.braintreepayments.com/control-panel/important-gateway-credentials?_ga=1.77752916.1329984426.1602275634#api-credentials.
+
+### Venmo support
+Currently payment using venmo app is only supported on Google Chrome and Safari web browsers. However payment using credit cards is supported on all browsers.
+
 
 ### Links
 
@@ -117,3 +121,4 @@ To seed use the following cmd:
 ### References
 
 [1] https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+[2] https://developers.braintreepayments.com/guides/venmo/overview
