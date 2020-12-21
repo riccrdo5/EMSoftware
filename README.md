@@ -1,5 +1,5 @@
 # Essential Machine
-Essential Machine is an attempt at solving the problem of reducing contact in School places by manufacturing vending machines (referred to as Essential Machine) that dispense masks, gloves, sanitizers in a safer, more convenient manner compared to physical stores. The Essential Machine is more advanced & safer than the typical vending machine allowing NFC payments & gesture-based product selections.
+Essential Machine is an attempt at solving the problem of reducing contact in School places by manufacturing vending machines (referred to as Essential Machine) that dispense masks, gloves, sanitizers in a safer, more convenient manner compared to physical stores. The Essential Machine is more advanced & safer than the typical vending machine allowing mobile payments.
 
 ### Connecting to Raspberry Pi Zero
 
@@ -99,7 +99,7 @@ sudo tail /var/log/apache2/error.log
 Seeding of new values is done using the **seed.json** file. Change values in seed.json on refilling the vending machine. Restarting apache will recreate new database from the see file automatically. 
 
 ```shell
-chmod 777 essential_machine.db  #To give write permissions to the application.
+sudo chmod 777 essential_machine.db  #To give write permissions to the application.
 ```
 
 ### Links
